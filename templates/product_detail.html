@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="top-header">
+        <div class="top-row">
+            <div class="brand-wrap">
+                <div class="brand-logo">Copra</div>
+                <div class="brand-tag">.eg</div>
+            </div>
+            <div class="header-search">
+                <input type="text" placeholder="ابحث عن المنتجات ...">
+                <button>بحث</button>
+            </div>
+            <div class="header-actions">
+                <div class="language-switcher">
+                    <span class="flag">🇪🇬</span>
+                    <select data-language-select aria-label="اختيار اللغة">
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                        <option value="es">Español</option>
+                        <option value="de">Deutsch</option>
+                        <option value="it">Italiano</option>
+                        <option value="pt">Português</option>
+                        <option value="tr">Türkçe</option>
+                        <option value="ru">Русский</option>
+                        <option value="zh">中文</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ur">اردو</option>
+                        <option value="nl">Nederlands</option>
+                    </select>
+                </div>
+                <a href="/login" class="nav-link">تسجيل الدخول</a>
+                <a href="/cart" class="nav-link">السلة ({{ cart_count }})</a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <a href="/">الرئيسية</a>
+            <a href="#">الإلكترونيات</a>
+            <a href="#">الأزياء</a>
+            <a href="#">المنزل</a>
+            <a href="#">العروض</a>
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        <div class="detail-page">
+            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+
+            <div class="detail-content">
+                <span class="detail-badge">منتج مميز</span>
+                <h1>{{ product.name }}</h1>
+                <div class="detail-price">{{ product.price }} ج.م</div>
+                <p class="detail-meta">
+                    منتج عالي الجودة ومناسب للاستخدام اليومي. تم تصميمه لتقديم تجربة مريحة وعملية مع ضمان الجودة الكاملة وسرعة التوصيل داخل المدن الكبرى.
+                </p>
+                <div class="detail-features">
+                    <span>توصيل سريع</span>
+                    <span>ضمان أصلية</span>
+                    <span>استرجاع سهل</span>
+                </div>
+                <div class="detail-actions">
+                    <a href="{{ url_for('checkout') }}" class="btn">الدفع</a>
+                    <a href="/cart" class="btn btn-small">عرض السلة</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

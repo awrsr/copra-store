@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Smartphone X">
+  <defs>
+    <linearGradient id="bg2" x1="0" x2="1">
+      <stop offset="0%" stop-color="#e8d9ff"/>
+      <stop offset="100%" stop-color="#c5b3ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg2)"/>
+  <rect x="145" y="30" width="110" height="240" rx="18" fill="#0f172a"/>
+  <rect x="160" y="60" width="80" height="180" rx="12" fill="#1f2937"/>
+  <rect x="172" y="78" width="56" height="120" rx="8" fill="#b9c3ff"/>
+  <circle cx="200" cy="222" r="8" fill="#dbeafe"/>
+  <text x="200" y="260" font-size="24" font-family="Tahoma, Arial, sans-serif" text-anchor="middle" fill="#0f172a" font-weight="bold">Phone X</text>
+</svg>

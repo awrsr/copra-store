@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سلة المشتريات</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="top-header">
+        <div class="top-row">
+            <div class="brand-wrap">
+                <div class="brand-logo">Copra</div>
+                <div class="brand-tag">.eg</div>
+            </div>
+            <div class="header-search">
+                <input type="text" placeholder="ابحث عن المنتجات ...">
+                <button>بحث</button>
+            </div>
+            <div class="header-actions">
+                <div class="language-switcher">
+                    <span class="flag">🇪🇬</span>
+                    <select data-language-select aria-label="اختيار اللغة">
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                        <option value="es">Español</option>
+                        <option value="de">Deutsch</option>
+                        <option value="it">Italiano</option>
+                        <option value="pt">Português</option>
+                        <option value="tr">Türkçe</option>
+                        <option value="ru">Русский</option>
+                        <option value="zh">中文</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ur">اردو</option>
+                        <option value="nl">Nederlands</option>
+                    </select>
+                </div>
+                <a href="/login" class="nav-link">تسجيل الدخول</a>
+                <a href="/cart" class="nav-link">السلة ({{ cart_count }})</a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <a href="/">الرئيسية</a>
+            <a href="#">الإلكترونيات</a>
+            <a href="#">الأزياء</a>
+            <a href="#">المنزل</a>
+            <a href="#">العروض</a>
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        <div class="cart-page">
+            <h2 class="checkout-title">سلة المشتريات</h2>
+
+            {% if cart_items %}
+                {% for item in cart_items %}
+                <div class="cart-item">
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <img src="{{ item.image_url }}" alt="{{ item.name }}">
+                        <div>
+                            <h3>{{ item.name }}</h3>
+                            <p>الكمية: {{ item.quantity }}</p>
+                        </div>
+                    </div>
+                    <strong>{{ item.subtotal }} ج.م</strong>
+                </div>
+                {% endfor %}
+
+                <div class="total-box">
+                    الإجمالي: {{ total }} ج.م
+                </div>
+
+                <div class="detail-actions">
+                    <a href="{{ url_for('checkout') }}" class="btn">إتمام الطلب</a>
+                    <a href="/" class="btn btn-small">متابعة التسوق</a>
+                </div>
+            {% else %}
+                <div class="empty-cart">
+                    السلة فارغة حاليًا.
+                </div>
+            {% endif %}
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

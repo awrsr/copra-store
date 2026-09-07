@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Copra متجر إلكتروني للمنتجات والإلكترونيات والملابس والإكسسوارات وخدمة التوصيل داخل مصر.">
+    <meta name="theme-color" content="#090a0c">
+    <link rel="canonical" href="{{ site_url }}/">
+    <title>Copra ⚡</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <section class="site-intro" id="site-intro" aria-label="مقدمة الموقع">
+        <video class="intro-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=2000&q=90">
+            <source src="https://cdn.coverr.co/videos/coverr-a-red-sports-car-driving-on-a-road-1576/1080p.mp4" type="video/mp4">
+        </video>
+        <div class="intro-shade"></div>
+        <div class="intro-content">
+            <span class="intro-kicker">COPRA PERFORMANCE</span>
+            <h1>اتحرك أسرع.<br><strong>اختار بشغف.</strong></h1>
+            <p>تجربة تسوق مختلفة تبدأ من أول لحظة.</p>
+            <button class="intro-enter" type="button" id="enter-store">ابدأ التجربة <span>→</span></button>
+        </div>
+        <div class="intro-scroll">اسحب للدخول <span>↓</span></div>
+    </section>
+
+    <header class="top-header">
+        <div class="top-row">
+            <a href="{{ url_for('index') }}" class="brand-wrap">
+                <div class="brand-logo">Copra</div>
+                <div class="brand-tag">.eg</div>
+            </a>
+            <form class="header-search" action="{{ url_for('index') }}" method="get">
+                <input type="search" name="q" value="{{ search_query }}" placeholder="ابحث عن المنتجات ..." autocomplete="off">
+                <button type="submit" aria-label="بحث">⌕</button>
+            </form>
+            <div class="header-actions">
+                <div class="language-switcher">
+                    <span class="flag">🇪🇬</span>
+                    <select data-language-select aria-label="اختيار اللغة">
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                        <option value="es">Español</option>
+                        <option value="de">Deutsch</option>
+                        <option value="it">Italiano</option>
+                        <option value="pt">Português</option>
+                        <option value="tr">Türkçe</option>
+                        <option value="ru">Русский</option>
+                        <option value="zh">中文</option>
+                        <option value="ja">日本語</option>
+                        <option value="ko">한국어</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ur">اردو</option>
+                        <option value="nl">Nederlands</option>
+                    </select>
+                </div>
+                <div class="account-menu">
+                    <button class="account-trigger" type="button" aria-expanded="false" aria-controls="account-dropdown">
+                        <span class="account-greeting">مرحبًا، تسجيل الدخول</span>
+                        <strong>الحساب والقوائم</strong>
+                        <span class="chevron">⌄</span>
+                    </button>
+                    <div class="account-dropdown" id="account-dropdown">
+                        <a href="{{ url_for('login') }}" class="account-login">تسجيل الدخول</a>
+                        <p>ليس لديك حساب؟ <a href="{{ url_for('login') }}">ابدأ من هنا</a></p>
+                        <div class="account-columns">
+                            <div>
+                                <h3>حسابك</h3>
+                                <a href="{{ url_for('login') }}">حسابك</a>
+                                <a href="{{ url_for('cart') }}">طلباتك</a>
+                                <a href="{{ url_for('checkout') }}">عناوينك</a>
+                            </div>
+                            <div>
+                                <h3>قوائمك</h3>
+                                <a href="{{ url_for('cats') }}">إنشاء قائمة</a>
+                                <a href="{{ url_for('cats') }}">تصفح الأقسام</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ url_for('cart') }}" class="orders-link">طلباتك</a>
+                <a href="{{ url_for('cart') }}" class="cart-link">
+                    <span class="cart-icon">🛒</span>
+                    <b>{{ cart_count }}</b>
+                    <span>عربة التسوق</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <a href="{{ url_for('cats') }}" class="all-departments">☰ كل الأقسام</a>
+            <a href="{{ url_for('cats', category='الأجهزة والإلكترونيات') }}">الإلكترونيات</a>
+            <a href="{{ url_for('cats', category='الهواتف والأجهزة اللوحية') }}">الهواتف</a>
+            <a href="{{ url_for('cats', category='أجهزة الكمبيوتر') }}">الكمبيوتر</a>
+            <a href="{{ url_for('cats', category='الملابس') }}">الملابس</a>
+            <a href="{{ url_for('cats', category='الأحذية') }}">الأحذية</a>
+            <a href="{{ url_for('cats', category='الإكسسوارات') }}">الإكسسوارات</a>
+            <a href="{{ url_for('cats', category='المنزل والأجهزة الكهربائية') }}">المنزل</a>
+            <a href="{{ url_for('cats', category='الكتب والقرطاسية') }}">الكتب والقرطاسية</a>
+            <a href="{{ url_for('cats') }}">العروض</a>
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        <section class="promo-grid">
+            <div class="promo-card promo-orange">
+                <h3>تسوق الآن<br>بأفضل الأسعار</h3>
+                <div class="promo-icon">🚚</div>
+                <div class="promo-badges">
+                    <span>توصيل مجاني</span>
+                    <span>إرجاع سهل</span>
+                </div>
+            </div>
+
+            <div class="promo-card promo-yellow">
+                <h3>عروض عادلة<br>على أجهزةك</h3>
+                <div class="promo-image promo-city"></div>
+            </div>
+
+            <div class="promo-card promo-blue">
+                <h3>خصومات اليوم</h3>
+                <div class="promo-icon">💳</div>
+                <div class="promo-badges">
+                    <span>خصم 15%</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-section">
+            <div class="section-title">
+                <div>
+                    {% if search_query %}
+                    <span class="eyebrow">نتائج البحث</span>
+                    <h2>نتائج البحث عن «{{ search_query }}»</h2>
+                    {% else %}
+                    <h2>منتجاتنا المميزة</h2>
+                    {% endif %}
+                </div>
+                <a href="/categories">تصفح الأقسام</a>
+            </div>
+
+            {% if not products %}
+            <div class="empty-search">
+                <h2>لم نجد هذا المنتج</h2>
+                <p>جرب البحث باسم آخر أو اختر قسمًا من الأقسام الموجودة.</p>
+                <a href="{{ url_for('index') }}" class="btn">عرض كل المنتجات</a>
+            </div>
+            {% endif %}
+
+            {% for department in department_groups %}
+            <section class="homepage-department" id="{% if 'الملابس' in department.name %}clothing{% elif 'الإكسسوارات' in department.name %}accessories{% elif 'الأجهزة' in department.name %}electronics{% elif 'المنزل' in department.name %}home{% else %}books{% endif %}">
+                <div class="section-title department-title">
+                    <div>
+                        <span class="eyebrow">{{ department.product_count }} منتجات</span>
+                        <h2>{{ department.icon }} {{ department.name }}</h2>
+                    </div>
+                    <a href="{{ url_for('cats') }}#{% if 'الملابس' in department.name %}clothing{% elif 'الإكسسوارات' in department.name %}accessories{% elif 'الأجهزة' in department.name %}electronics{% elif 'المنزل' in department.name %}home{% else %}books{% endif %}">عرض كل القسم</a>
+                </div>
+                {% for group in department.groups %}
+                <div class="homepage-category">
+                    <div class="category-label">
+                        <h3>{{ group.name }}</h3>
+                        <span>{{ group.products|length }} منتجات</span>
+                    </div>
+                    <div class="products">
+                        {% for product in group.products %}
+                        <article class="card">
+                            <a href="{{ url_for('product_detail', product_id=product.id) }}" class="product-image-link">
+                                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                            </a>
+                            <span class="product-subcategory">{{ product.subcategory }}</span>
+                            <h3><a href="{{ url_for('product_detail', product_id=product.id) }}" class="product-title">{{ product.name }}</a></h3>
+                            <p class="product-price">{{ product.price }} ج.م</p>
+                            <div class="product-actions">
+                                <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn">عرض المنتج</a>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+            {% endfor %}
+        </section>
+    </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

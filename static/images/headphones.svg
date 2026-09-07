@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Headphones Thunder">
+  <defs>
+    <linearGradient id="bg3" x1="0" x2="1">
+      <stop offset="0%" stop-color="#dffdf4"/>
+      <stop offset="100%" stop-color="#9ee7d2"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg3)"/>
+  <path d="M110 150c0-52 41-94 92-94s92 42 92 94v50h-52v-50c0-22-17-40-40-40s-40 18-40 40v50h-52zm148 50v30c0 16-13 28-28 28h-22c-15 0-28-12-28-28v-30" fill="none" stroke="#1f2937" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="110" cy="150" r="20" fill="#1f2937"/>
+  <circle cx="290" cy="150" r="20" fill="#1f2937"/>
+  <circle cx="110" cy="150" r="8" fill="#dffdf4"/>
+  <circle cx="290" cy="150" r="8" fill="#dffdf4"/>
+  <text x="200" y="260" font-size="22" font-family="Tahoma, Arial, sans-serif" text-anchor="middle" fill="#1f2937" font-weight="bold">Thunder</text>
+</svg>
