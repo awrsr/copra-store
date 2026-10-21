@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دخول الإدارة | Copra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="admin-body">
+    <main class="admin-login">
+        <span class="eyebrow">COPRA CONTROL</span>
+        <h1>لوحة تحكم صاحب الموقع</h1>
+        <p>تابع الطلبات والمبيعات من مكان واحد.</p>
+        {% if error %}<div class="admin-error">{{ error }}</div>{% endif %}
+        <form method="post">
+            <label for="password">كلمة مرور الإدارة</label>
+            <input id="password" name="password" type="password" required autofocus>
+            <button class="btn" type="submit">دخول لوحة التحكم</button>
+        </form>
+    </main>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تم تأكيد الطلب | Copra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% if order %}
+    <main class="order-success page-shell">
+        <div class="success-mark">✓</div>
+        <span class="eyebrow">COPRA DELIVERY</span>
+        <h1>تم استلام طلبك، جاري مراجعته من قبل الفريق</h1>
+        <p>رقم الطلب: <strong>{{ order.id }}</strong></p>
+        <p>الحالة الحالية: <strong>قيد المراجعة</strong></p>
+        <p>تابع حالة الطلب وتواصل مع الفريق من صفحة المتابعة.</p>
+        <div class="success-summary"><span>{{ order.delivery_method }}</span><strong>{{ order.total }} ج.م</strong></div>
+        <a class="btn" href="{{ url_for('track_order', tracking_token=order.tracking_token) }}">تتبع الطلب والدردشة</a>
+        <a class="btn" href="{{ url_for('index') }}">العودة للمتجر</a>
+    </main>
+    {% else %}
+    <main class="order-success page-shell">
+        <h1>لم يتم العثور على الطلب</h1>
+        <a class="btn" href="{{ url_for('index') }}">العودة للمتجر</a>
+    </main>
+    {% endif %}
+</body>
+</html>

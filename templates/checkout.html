@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدفع</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="top-header">
+        <div class="top-row">
+            <div class="brand-wrap">
+                <div class="brand-logo">Copra</div>
+                <div class="brand-tag">.eg</div>
+            </div>
+            <form class="header-search" action="{{ url_for('index') }}" method="get">
+                <input type="search" name="q" placeholder="ابحث عن المنتجات ..." autocomplete="off">
+                <button type="submit">بحث</button>
+            </form>
+            <div class="header-actions">
+                <div class="language-switcher">
+                    <span class="flag">🇪🇬</span>
+                    <select data-language-select aria-label="اختيار اللغة">
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <button class="theme-toggle" type="button" data-theme-toggle aria-label="تبديل المظهر">◐</button>
+                <a href="/login" class="nav-link">تسجيل الدخول</a>
+                <a href="/cart" class="nav-link">السلة ({{ cart_count }})</a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <a href="/">الرئيسية</a>
+            <a href="{{ url_for('cats', category='الأجهزة والإلكترونيات') }}">الإلكترونيات</a>
+            <a href="{{ url_for('cats', category='الملابس') }}">الأزياء</a>
+            <a href="{{ url_for('cats', category='المنزل والأجهزة الكهربائية') }}">المنزل</a>
+            <a href="{{ url_for('index') }}">كل المنتجات</a>
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        <div class="checkout-page">
+            <form class="checkout-grid" method="post" action="{{ url_for('checkout') }}">
+                <div>
+                    <h2 class="checkout-title">اختر طريقة الدفع</h2>
+
+                    <div class="payment-methods">
+                        <div class="method-box active">
+                            <div class="method-header">
+                                <strong>بطاقة فيزا</strong>
+                                <span>💳</span>
+                            </div>
+                            <div class="payment-fields">
+                                <input type="text" placeholder="اسم حامل البطاقة">
+                                <input type="text" placeholder="رقم البطاقة">
+                                <div class="field-grid two-cols">
+                                    <input type="text" placeholder="MM / YY">
+                                    <input type="text" placeholder="CVV">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="method-box">
+                            <div class="method-header">
+                                <strong>الدفع عند الاستلام</strong>
+                                <span>💵</span>
+                            </div>
+
+                            <div class="address-form">
+                                <div class="field-group">
+                                    <label>اسم الكامل</label>
+                                    <input type="text" name="full_name" placeholder="أدخل اسم المستلم" required>
+                                </div>
+
+                                <div class="field-group">
+                                    <label>رقم الهاتف</label>
+                                    <input type="tel" name="phone" placeholder="05xxxxxxxx" required>
+                                </div>
+
+                                <div class="field-group">
+                                    <label>المحافظة</label>
+                                    <select>
+                                        <option value="">اختر المحافظة</option>
+                                        {% for governorate in governorates %}
+                                        <option value="{{ governorate.name }}">{{ governorate.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="field-group">
+                                    <label>اسم المدينة / المنطقة</label>
+                                    <select>
+                                        <option value="">اختر المدينة أو المنطقة</option>
+                                        {% for governorate in governorates %}
+                                            {% for city in governorate.cities %}
+                                            <option value="{{ city }}">{{ city }}</option>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="field-group">
+                                    <label>اسم الحي / القرية / المنطقة السكنية</label>
+                                    <input type="text" placeholder="مثال: حي المعادي - قرية العياط - المنطقة الصناعية">
+                                </div>
+
+                                <div class="field-group">
+                                    <label>اسم الشارع</label>
+                                    <input type="text" placeholder="مثال: شارع التحرير - شارع محمد فريد">
+                                </div>
+
+                                <div class="field-grid two-cols">
+                                    <div class="field-group">
+                                        <label>رقم المبنى</label>
+                                        <input type="text" placeholder="رقم المبنى">
+                                    </div>
+                                    <div class="field-group">
+                                        <label>رقم الطابق / الوحدة</label>
+                                        <input type="text" placeholder="مثال: 3 - 12A">
+                                    </div>
+                                </div>
+
+                                <div class="field-group">
+                                    <label>عنوان تفصيلي</label>
+                                    <textarea name="address" rows="3" placeholder="مثال: عمارة السلام، بجوار البنك المركزي، مقابل مدرسة النور" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section class="delivery-service">
+                        <div class="delivery-heading">
+                            <div>
+                                <span class="eyebrow">خدمة التوصيل</span>
+                                <h3>اختر طريقة التوصيل</h3>
+                            </div>
+                            <span class="delivery-truck">🚚</span>
+                        </div>
+                        <label class="delivery-option is-selected">
+                            <input type="radio" name="delivery" value="10" data-delivery-label="التوصيل العادي" data-delivery-method="التوصيل العادي" checked>
+                            <span class="delivery-option-copy">
+                                <strong>التوصيل العادي</strong>
+                                <small>يصل خلال ساعة أو ساعتين</small>
+                            </span>
+                            <b>10 ج.م</b>
+                        </label>
+                        <label class="delivery-option">
+                            <input type="radio" name="delivery" value="25" data-delivery-label="التوصيل السريع" data-delivery-method="التوصيل السريع">
+                            <span class="delivery-option-copy">
+                                <strong>التوصيل السريع</strong>
+                                <small>يصل خلال نصف ساعة</small>
+                            </span>
+                            <b>25 ج.م</b>
+                        </label>
+                        <label class="delivery-option">
+                            <input type="radio" name="delivery" value="50" data-delivery-label="التوصيل الممتاز" data-delivery-method="التوصيل الممتاز">
+                            <span class="delivery-option-copy">
+                                <strong>التوصيل الممتاز</strong>
+                                <small>يصل خلال عشر دقائق</small>
+                            </span>
+                            <b>50 ج.م</b>
+                        </label>
+                    </section>
+                </div>
+
+                <aside class="summary-box">
+                    <h3>ملخص الطلب</h3>
+                    {% for item in cart_items %}
+                    <div class="summary-item">
+                        <span>{{ item.name }} x{{ item.quantity }}</span>
+                        <strong>{{ item.subtotal }} ج.م</strong>
+                    </div>
+                    {% endfor %}
+
+                    <div class="summary-total">
+                        <div class="summary-item summary-subtotal">
+                            <span>المنتجات</span>
+                            <strong>{{ total }} ج.م</strong>
+                        </div>
+                        <div class="summary-item summary-delivery">
+                            <span>التوصيل</span>
+                            <strong id="delivery-fee">10 ج.م</strong>
+                        </div>
+                        <div class="summary-grand-total">
+                            الإجمالي: <span id="order-total" data-subtotal="{{ total }}">{{ total + 10 }} ج.م</span>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="delivery_fee" id="delivery-fee-input" value="10">
+                    <input type="hidden" name="delivery_method" id="delivery-method-input" value="التوصيل العادي">
+                    <input type="hidden" name="payment_method" value="الدفع عند الاستلام">
+                    <button class="btn order-btn" type="submit">تأكيد الطلب</button>
+                </aside>
+            </form>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

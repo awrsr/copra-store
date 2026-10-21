@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>Copra Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="login-box">
+        <div class="login-language">
+            <span>🌐</span>
+            <select data-language-select aria-label="اختيار اللغة">
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+            </select>
+            <button class="theme-toggle" type="button" data-theme-toggle aria-label="تبديل المظهر">◐</button>
+        </div>
+        <h2>تسجيل الدخول</h2>
+        {% if error %}<div class="admin-error">{{ error }}</div>{% endif %}
+        <form method="POST" action="/login">
+            <input type="email" name="email" placeholder="البريد الإلكتروني" required>
+            <input type="password" name="password" placeholder="كلمة المرور" required>
+            <button type="submit" class="btn">دخول</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

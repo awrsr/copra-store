@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#090a0c">
+    <title>غير متصل | Copra</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { display: grid; min-height: 100vh; min-height: 100dvh; place-items: center; margin: 0; padding: 24px; padding-top: calc(24px + env(safe-area-inset-top)); padding-bottom: calc(24px + env(safe-area-inset-bottom)); background: #090a0c; color: #fff; font: 16px/1.7 Tahoma, Arial, sans-serif; text-align: center; }
+        main { max-width: 440px; }
+        .icon { display: grid; width: 92px; height: 92px; place-items: center; margin: 0 auto 24px; border-radius: 26px; background: #ff3b30; font-size: 42px; font-weight: 900; }
+        h1 { margin: 0 0 12px; font-size: clamp(26px, 7vw, 36px); }
+        p { margin: 0 0 24px; color: #c7c7c7; }
+        button { min-height: 48px; padding: 0 24px; border: 0; border-radius: 14px; background: #ff3b30; color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="icon" aria-hidden="true">C</div>
+        <h1>أنت غير متصل بالإنترنت</h1>
+        <p>المتجر والطلبات والدردشة تحتاج إلى اتصال بالإنترنت. أعد الاتصال ثم حاول مرة أخرى.</p>
+        <button type="button" onclick="window.location.reload()">إعادة المحاولة</button>
+    </main>
+</body>
+</html>

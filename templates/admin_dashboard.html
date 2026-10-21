@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | Copra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="admin-body">
+    <header class="admin-header">
+        <div>
+            <span class="eyebrow">COPRA CONTROL</span>
+            <h1>لوحة تحكم صاحب الموقع</h1>
+        </div>
+        <div class="admin-actions">
+            <a href="{{ url_for('index') }}">عرض المتجر</a>
+            <a href="{{ url_for('admin_logout') }}">خروج</a>
+        </div>
+    </header>
+    <main class="admin-shell">
+        <section class="admin-stats">
+            <article><span>إجمالي المبيعات</span><strong>{{ revenue }} ج.م</strong></article>
+            <article><span>عدد الطلبات</span><strong>{{ orders|length }}</strong></article>
+            <article><span>الوحدات المباعة</span><strong>{{ units_sold }}</strong></article>
+        </section>
+        <section class="admin-grid">
+            <div class="admin-panel">
+                <div class="admin-panel-heading"><h2>آخر الطلبات</h2><span>مباشر من المتجر</span></div>
+                {% if orders %}
+                <div class="orders-table-wrap"><table class="orders-table"><thead><tr><th>رقم الطلب</th><th>العميل</th><th>التاريخ</th><th>التوصيل</th><th>الإجمالي</th><th>الحالة</th></tr></thead><tbody>
+                {% for order in orders %}<tr><td>{{ order.id }}</td><td>{{ order.customer_name }}<small>{{ order.phone }}</small></td><td>{{ order.created_at }}</td><td>{{ order.delivery_method }}</td><td>{{ order.total }} ج.م</td><td><form method="post" action="{{ url_for('update_order_status', order_id=order.id) }}"><select name="status" onchange="this.form.submit()">{% for status in ['جديد', 'قيد التجهيز', 'خرج للتوصيل', 'تم التسليم', 'ملغي'] %}<option {% if status == order.status %}selected{% endif %}>{{ status }}</option>{% endfor %}</select></form></td></tr>{% endfor %}
+                </tbody></table></div>
+                {% else %}<div class="admin-empty">لا توجد طلبات حتى الآن.</div>{% endif %}
+            </div>
+            <aside class="admin-panel"><div class="admin-panel-heading"><h2>الأكثر طلبًا</h2></div>{% if top_products %}<ol class="top-products">{% for name, quantity in top_products %}<li><span>{{ name }}</span><strong>{{ quantity }}</strong></li>{% endfor %}</ol>{% else %}<div class="admin-empty">ستظهر المنتجات هنا بعد أول طلب.</div>{% endif %}</aside>
+        </section>
+        <section class="admin-panel">
+            <div class="admin-panel-heading"><h2>رسائل العملاء</h2><span>آخر 30 رسالة</span></div>
+            {% if contact_messages %}
+            <div class="contact-inbox">
+                {% for message in contact_messages %}
+                <article>
+                    <div><strong>{{ message.name }}</strong><a href="mailto:{{ message.email }}">{{ message.email }}</a>{% if message.phone %}<a href="tel:{{ message.phone }}">{{ message.phone }}</a>{% endif %}</div>
+                    <time>{{ message.created_at }}</time>
+                    <p>{{ message.message }}</p>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}<div class="admin-empty">لا توجد رسائل حتى الآن.</div>{% endif %}
+        </section>
+        <section class="admin-panel admin-inventory">
+            <div class="admin-panel-heading"><h2>المخزون</h2><span>تعديل الكمية المتاحة</span></div>
+            <div class="inventory-grid">{% for product in products %}<form method="post" action="{{ url_for('update_product_stock', product_id=product.id) }}"><span>{{ product.name }}</span><input type="number" name="stock" min="0" value="{{ product.stock }}"><button type="submit">حفظ</button></form>{% endfor %}</div>
+        </section>
+    </main>
+</body>
+</html>

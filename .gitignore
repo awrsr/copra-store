@@ -1,0 +1,25 @@
+# Local Python environment and generated files
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local secrets and databases
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite
+*.sqlite3
+*.pem
+*.key
+*service-account*.json
+google-services.json
+
+# JavaScript dependencies and temporary output
+node_modules/
+staff-app/node_modules/
+staff-app/android/app/build/
+staff-app/android/.gradle/
+staff-app/ios/DerivedData/
+

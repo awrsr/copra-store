@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <title>تتبع الطلب | Copra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="tracking-body">
+    <main class="tracking-shell">
+        <a class="tracking-brand" href="{{ url_for('index') }}">Copra<span>.eg</span></a>
+        <section class="tracking-card">
+            <span class="eyebrow">متابعة الطلب</span>
+            <h1>طلبك مع فريق Copra</h1>
+            <p>رقم الطلب <strong id="tracked-order-id">{{ order_id }}</strong></p>
+            <div class="tracking-status" data-order-status aria-live="polite">جارٍ تحميل حالة الطلب…</div>
+            <p class="reject-reason" data-reject-reason hidden></p>
+            <div class="tracking-items" data-order-items></div>
+            <p class="tracking-total">الإجمالي <strong data-order-total></strong></p>
+        </section>
+        <section class="tracking-card tracking-chat">
+            <h2>محادثة فريق المتجر</h2>
+            <p>يمكنك إرسال استفسار مرتبط بهذا الطلب مباشرة.</p>
+            <div class="tracking-messages" data-tracking-messages aria-live="polite"></div>
+            <form data-tracking-chat>
+                <label class="visually-hidden" for="tracking-message">اكتب رسالتك</label>
+                <textarea id="tracking-message" name="text" rows="3" maxlength="2000" required placeholder="اكتب رسالتك للفريق"></textarea>
+                <button class="btn" type="submit">إرسال الرسالة</button>
+                <p class="tracking-feedback" aria-live="polite"></p>
+            </form>
+        </section>
+        <a class="tracking-back" href="{{ url_for('index') }}">العودة إلى المتجر</a>
+    </main>
+    <script>
+    (() => {
+        const orderId = {{ order_id|tojson }};
+        const token = {{ tracking_token|tojson }};
+        const statusElement = document.querySelector("[data-order-status]");
+        const itemsElement = document.querySelector("[data-order-items]");
+        const totalElement = document.querySelector("[data-order-total]");
+        const reasonElement = document.querySelector("[data-reject-reason]");
+        const messagesElement = document.querySelector("[data-tracking-messages]");
+        const feedbackElement = document.querySelector(".tracking-feedback");
+        const endpoint = `/api/orders/${encodeURIComponent(orderId)}`;
+        const statusLabels = {
+            Pending: "قيد مراجعة الفريق",
+            Approved: "تم تأكيد طلبك",
+            Rejected: "تعذر قبول الطلب",
+        };
+
+        async function loadOrder() {
+            const response = await fetch(`${endpoint}?token=${encodeURIComponent(token)}`);
+            if (!response.ok) throw new Error("تعذر تحميل حالة الطلب.");
+            const { order } = await response.json();
+            statusElement.textContent = statusLabels[order.status] || order.status;
+            reasonElement.hidden = order.status !== "Rejected" || !order.rejectReason;
+            reasonElement.textContent = reasonElement.hidden ? "" : `سبب الرفض: ${order.rejectReason}`;
+            itemsElement.replaceChildren(...order.items.map(item => {
+                const row = document.createElement("p");
+                row.textContent = `${item.name} × ${item.quantity}`;
+                return row;
+            }));
+            totalElement.textContent = `${order.total} ج.م`;
+        }
+
+        async function loadMessages() {
+            const response = await fetch(`${endpoint}/messages?token=${encodeURIComponent(token)}`);
+            if (!response.ok) throw new Error("تعذر تحميل المحادثة.");
+            const { messages } = await response.json();
+            messagesElement.replaceChildren(...messages.map(message => {
+                const row = document.createElement("p");
+                row.className = message.sender_id === "staff-admin" ? "tracking-message staff-message" : "tracking-message customer-message";
+                row.textContent = message.text;
+                return row;
+            }));
+            messagesElement.scrollTop = messagesElement.scrollHeight;
+        }
+
+        const events = new EventSource(`${endpoint}/events?token=${encodeURIComponent(token)}`);
+        events.addEventListener("order.updated", () => loadOrder().catch(showError));
+        events.addEventListener("message.created", () => loadMessages().catch(showError));
+
+        document.querySelector("[data-tracking-chat]").addEventListener("submit", async event => {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const button = form.querySelector("button[type='submit']");
+            button.disabled = true;
+            feedbackElement.textContent = "";
+            try {
+                const response = await fetch(`${endpoint}/messages`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ token, text: form.elements.text.value })
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.error || "تعذر إرسال الرسالة.");
+                form.reset();
+                await loadMessages();
+            } catch (error) {
+                feedbackElement.textContent = error.message;
+            } finally {
+                button.disabled = false;
+            }
+        });
+
+        function showError(error) {
+            statusElement.textContent = error.message;
+        }
+
+        loadOrder().catch(showError);
+        loadMessages().catch(showError);
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Copra متجر إلكتروني للمنتجات والإلكترونيات والملابس والإكسسوارات وخدمة التوصيل داخل مصر.">
+    <meta name="theme-color" content="#090a0c">
+    <link rel="canonical" href="{{ site_url }}/">
+    <title>Copra ⚡</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="top-header">
+        <div class="top-row">
+            <a href="{{ url_for('index') }}" class="brand-wrap">
+                <div class="brand-logo">Copra</div>
+                <div class="brand-tag">.eg</div>
+            </a>
+            <form class="header-search" action="{{ url_for('index') }}" method="get">
+                <input type="search" name="q" value="{{ search_query }}" placeholder="ابحث عن المنتجات ..." autocomplete="off">
+                <button type="submit" aria-label="بحث">⌕</button>
+            </form>
+            <div class="header-actions">
+                <div class="language-switcher">
+                    <span class="flag">🇪🇬</span>
+                    <select data-language-select aria-label="اختيار اللغة">
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <button class="theme-toggle" type="button" data-theme-toggle aria-label="تبديل المظهر">◐</button>
+                <div class="account-menu">
+                    <button class="account-trigger" type="button" aria-expanded="false" aria-controls="account-dropdown">
+                        <span class="account-greeting">مرحبًا، تسجيل الدخول</span>
+                        <strong>الحساب والقوائم</strong>
+                        <span class="chevron">⌄</span>
+                    </button>
+                    <div class="account-dropdown" id="account-dropdown">
+                        <a href="{{ url_for('login') }}" class="account-login">تسجيل الدخول</a>
+                        <p>ليس لديك حساب؟ <a href="{{ url_for('login') }}">ابدأ من هنا</a></p>
+                        <div class="account-columns">
+                            <div>
+                                <h3>حسابك</h3>
+                                <a href="{{ url_for('login') }}">حسابك</a>
+                                <a href="{{ url_for('cart') }}">طلباتك</a>
+                                <a href="{{ url_for('checkout') }}">عناوينك</a>
+                            </div>
+                            <div>
+                                <h3>قوائمك</h3>
+                                <a href="{{ url_for('cats') }}">إنشاء قائمة</a>
+                                <a href="{{ url_for('cats') }}">تصفح الأقسام</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ url_for('cart') }}" class="orders-link">طلباتك</a>
+                <a href="{{ url_for('cart') }}" class="cart-link">
+                    <span class="cart-icon">🛒</span>
+                    <b>{{ cart_count }}</b>
+                    <span>عربة التسوق</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <a href="{{ url_for('cats') }}" class="all-departments">☰ كل الأقسام</a>
+            <a href="{{ url_for('cats', category='الأجهزة والإلكترونيات') }}">الإلكترونيات</a>
+            <a href="{{ url_for('cats', category='الهواتف والأجهزة اللوحية') }}">الهواتف</a>
+            <a href="{{ url_for('cats', category='أجهزة الكمبيوتر') }}">الكمبيوتر</a>
+            <a href="{{ url_for('cats', category='الملابس') }}">الملابس</a>
+            <a href="{{ url_for('cats', category='الأحذية') }}">الأحذية</a>
+            <a href="{{ url_for('cats', category='الإكسسوارات') }}">الإكسسوارات</a>
+            <a href="{{ url_for('cats', category='المنزل والأجهزة الكهربائية') }}">المنزل</a>
+            <a href="{{ url_for('cats', category='الكتب والقرطاسية') }}">الكتب والقرطاسية</a>
+            <a href="{{ url_for('cats') }}">العروض</a>
+        </nav>
+    </header>
+
+    <main class="page-shell">
+        <section class="store-hero">
+            <div class="hero-copy">
+                <span class="eyebrow">COPRA · تسوق أذكى</span>
+                <h1>كل ما تحتاجه،<br><span>في مكان واحد.</span></h1>
+                <p>اكتشف تشكيلة مختارة من الإلكترونيات والأزياء والمنزل والكتب، وتسوق بسهولة من أي جهاز.</p>
+                <div class="hero-actions">
+                    <a class="btn" href="#products">اكتشف المنتجات <span aria-hidden="true">←</span></a>
+                    <a class="hero-secondary" href="{{ url_for('cats') }}">تصفح الأقسام</a>
+                </div>
+                <div class="hero-points"><span>✓ خيارات دفع متعددة</span><span>✓ توصيل داخل مصر</span><span>✓ متابعة سهلة للطلب</span></div>
+            </div>
+            <div class="hero-art" aria-hidden="true"><div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div><div class="hero-product">✦<strong>تسوّق<br>بأسلوبك</strong><span>COPRA / EGYPT</span></div><span class="hero-spark spark-one">✳</span><span class="hero-spark spark-two">✧</span></div>
+        </section>
+        <section class="promo-grid">
+            <div class="promo-card promo-orange">
+                <h3>اختيارات<br>تناسب يومك</h3>
+                <div class="promo-icon">✦</div>
+                <div class="promo-badges">
+                    <span>أقسام متعددة</span>
+                    <span>تسوق بسهولة</span>
+                </div>
+            </div>
+
+            <div class="promo-card promo-yellow">
+                <h3>اكتشف الجديد<br>في Copra</h3>
+                <div class="promo-image promo-city"></div>
+            </div>
+
+            <div class="promo-card promo-blue">
+                <h3>خطوتك القادمة<br>تبدأ من هنا</h3>
+                <div class="promo-icon">↙</div>
+                <div class="promo-badges">
+                    <span>إلكترونيات · أزياء · منزل</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-section" id="products">
+            <div class="section-title">
+                <div>
+                    {% if search_query %}
+                    <span class="eyebrow">نتائج البحث</span>
+                    <h2>نتائج البحث عن «{{ search_query }}»</h2>
+                    {% else %}
+                    <h2>منتجاتنا المميزة</h2>
+                    {% endif %}
+                </div>
+                <a href="/categories">تصفح الأقسام</a>
+            </div>
+
+            {% if not products %}
+            <div class="empty-search">
+                <h2>لم نجد هذا المنتج</h2>
+                <p>جرب البحث باسم آخر أو اختر قسمًا من الأقسام الموجودة.</p>
+                <a href="{{ url_for('index') }}" class="btn">عرض كل المنتجات</a>
+            </div>
+            {% endif %}
+
+            {% for department in department_groups %}
+            <section class="homepage-department" id="{% if 'الملابس' in department.name %}clothing{% elif 'الإكسسوارات' in department.name %}accessories{% elif 'الأجهزة' in department.name %}electronics{% elif 'المنزل' in department.name %}home{% else %}books{% endif %}">
+                <div class="section-title department-title">
+                    <div>
+                        <span class="eyebrow">{{ department.product_count }} منتجات</span>
+                        <h2>{{ department.icon }} {{ department.name }}</h2>
+                    </div>
+                    <a href="{{ url_for('cats') }}#{% if 'الملابس' in department.name %}clothing{% elif 'الإكسسوارات' in department.name %}accessories{% elif 'الأجهزة' in department.name %}electronics{% elif 'المنزل' in department.name %}home{% else %}books{% endif %}">عرض كل القسم</a>
+                </div>
+                {% for group in department.groups %}
+                <div class="homepage-category">
+                    <div class="category-label">
+                        <h3>{{ group.name }}</h3>
+                        <span>{{ group.products|length }} منتجات</span>
+                    </div>
+                    <div class="products">
+                        {% for product in group.products %}
+                        <article class="card">
+                            <a href="{{ url_for('product_detail', product_id=product.id) }}" class="product-image-link">
+                                <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy" decoding="async">
+                            </a>
+                            <span class="product-subcategory">{{ product.subcategory }}</span>
+                            <h3><a href="{{ url_for('product_detail', product_id=product.id) }}" class="product-title">{{ product.name }}</a></h3>
+                            <small class="product-barcode">باركود: {{ product.barcode }}</small>
+                            <p class="product-price">{{ product.price }} ج.م</p>
+                            <div class="product-actions">
+                                <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn">عرض المنتج</a>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+            {% endfor %}
+            {% if products|length > 12 %}
+            <button type="button" class="load-more-button" data-load-more>عرض المزيد من المنتجات</button>
+            {% endif %}
+        </section>
+        <section class="store-info-grid">
+            <article><span>01</span><h3>تشكيلة متنوعة</h3><p>من الأجهزة والملابس إلى احتياجات المنزل والقراءة.</p></article>
+            <article><span>02</span><h3>تجربة واضحة</h3><p>تفاصيل المنتجات والأسعار متاحة قبل إتمام طلبك.</p></article>
+            <article><span>03</span><h3>تسوق بثقة</h3><p>اختر طريقة التوصيل والدفع المناسبة أثناء إتمام الطلب.</p></article>
+        </section>
+        <section class="newsletter-section">
+            <div><span class="eyebrow">ابقَ على اطلاع</span><h2>عروض ومنتجات جديدة، في بريدك.</h2><p>اشترك لتصلك تحديثات Copra. يمكنك إلغاء الاشتراك بالتواصل مع إدارة المتجر.</p></div>
+            <form class="newsletter-form" data-async-form action="{{ url_for('subscribe_newsletter') }}" method="post">
+                <label class="visually-hidden" for="newsletter-email">البريد الإلكتروني</label>
+                <input id="newsletter-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="أدخل بريدك الإلكتروني">
+                <button class="btn" type="submit">اشترك الآن</button>
+                <p class="form-feedback" aria-live="polite"></p>
+            </form>
+        </section>
+        <section class="faq-section" id="faq">
+            <div class="section-title"><div><span class="eyebrow">مساعدة سريعة</span><h2>أسئلة شائعة</h2></div></div>
+            <details><summary>كيف أطلب منتجاً؟</summary><p>افتح صفحة المنتج، أضفه إلى السلة، ثم تابع إلى إتمام الطلب لإدخال بيانات التوصيل.</p></details>
+            <details><summary>كيف أعرف تكلفة التوصيل؟</summary><p>تظهر خيارات التوصيل ورسومها في صفحة إتمام الطلب قبل تأكيد الشراء.</p></details>
+            <details><summary>هل يمكنني تصفح المنتجات حسب القسم؟</summary><p>نعم، اختر «كل الأقسام» من شريط التنقل أو استخدم روابط الأقسام في أعلى الصفحة.</p></details>
+        </section>
+        <footer class="store-footer">
+            <a href="{{ url_for('index') }}" class="brand-wrap"><span class="brand-logo">Copra</span><span class="brand-tag">.eg</span></a>
+            <p>تسوق متنوع وتجربة بسيطة من مكان واحد.</p>
+            <div class="footer-links"><a href="{{ url_for('cats') }}">كل الأقسام</a><a href="{{ url_for('export_products') }}">تحميل قائمة المنتجات (CSV)</a><a href="#faq">الأسئلة الشائعة</a></div>
+            {% if store_phone or whatsapp_number or store_email or social_links %}
+            <div class="footer-links contact-channels">
+                {% if store_phone %}<a href="tel:{{ store_phone }}">اتصل بنا</a>{% endif %}
+                {% if whatsapp_number %}<a href="https://wa.me/{{ whatsapp_number }}" target="_blank" rel="noopener noreferrer">واتساب</a>{% endif %}
+                {% if store_email %}<a href="mailto:{{ store_email }}">البريد الإلكتروني</a>{% endif %}
+                {% for social in social_links %}<a href="{{ social.url }}" target="_blank" rel="noopener noreferrer">{{ social.label }}</a>{% endfor %}
+            </div>
+            {% endif %}
+            <button class="footer-contact" type="button" data-contact-open>أرسل رسالة للمتجر</button>
+            <small>© {{ now_year }} Copra. جميع الحقوق محفوظة.</small>
+        </footer>
+    </main>
+    <div class="scroll-progress" data-scroll-progress></div>
+    <button class="back-to-top" type="button" data-back-to-top aria-label="العودة إلى الأعلى">↑</button>
+    <button class="chat-launcher" type="button" data-chat-launcher aria-label="افتح مساعد Copra">☏</button>
+    <section class="chat-panel" data-chat-panel aria-label="مساعد Copra" hidden>
+        <div class="chat-heading"><strong>مساعد Copra</strong><button type="button" data-chat-close aria-label="إغلاق">×</button></div>
+        <div class="chat-messages" data-chat-messages aria-live="polite"><p class="chat-bot">أهلاً بك! اسألني عن الطلب أو التوصيل أو تصفح الأقسام.</p></div>
+        <form data-chat-form><label class="visually-hidden" for="chat-question">اكتب سؤالك</label><input id="chat-question" name="question" required maxlength="300" placeholder="اكتب سؤالك"><button type="submit">إرسال</button></form>
+    </section>
+    <dialog class="contact-dialog" data-contact-dialog>
+        <form class="contact-form" data-async-form action="{{ url_for('submit_contact') }}" method="post">
+            <button class="dialog-close" type="button" data-dialog-close aria-label="إغلاق">×</button>
+            <span class="eyebrow">نحن هنا للمساعدة</span><h2>تواصل مع فريق Copra</h2>
+            <p>سيتم حفظ رسالتك ليتمكن فريق المتجر من متابعتها من لوحة الإدارة.</p>
+            <label>الاسم<input name="name" required maxlength="120" autocomplete="name"></label>
+            <label>البريد الإلكتروني<input name="email" type="email" required maxlength="254" autocomplete="email"></label>
+            <label>رقم الهاتف (اختياري)<input name="phone" type="tel" maxlength="30" autocomplete="tel"></label>
+            <label>رسالتك<textarea name="message" required maxlength="3000" rows="4"></textarea></label>
+            <button class="btn" type="submit">إرسال الرسالة</button><p class="form-feedback" aria-live="polite"></p>
+        </form>
+    </dialog>
+    <button class="contact-fab" type="button" data-contact-open>تواصل معنا</button>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
